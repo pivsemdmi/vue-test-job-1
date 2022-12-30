@@ -230,7 +230,7 @@ export default {
     ajax(action, data, callback) {
 
       const url = this.$router.resolve({
-        path: '/',
+        path: '/api/',
         query: {
           action: action,
           data: JSON.stringify(data)

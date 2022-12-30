@@ -1,0 +1,39 @@
+version: '3.1'
+services:
+  php:
+    build: ./images/php-fpm
+    networks:
+      - network-no-internet
+      - network
+    restart: unless-stopped
+    volumes:
+      - ../:/var/www/html:rw
+      - ./config/php-fpm/log.conf:/usr/local/etc/php-fpm.d/zz-log.conf:r
+      - ./config/php-fpm/php.ini:/etc/php/7.4/fpm/conf.d/90-php.ini:r
+      - ./config/php-fpm/php.ini:/etc/php/7.4/cli/conf.d/90-php.ini:r
+    environment:
+      PHP_IDE_CONFIG: "serverName=Docker"
+
+  nginx:
+    image: nginx:1.11.10
+    networks:
+      - network-no-internet
+      - network
+    restart: unless-stopped
+    ports:
+      - "${PROD_PORT:-80}:80"
+      - "${DEV_PORT:-8050}:8080"
+    volumes:
+      - ../:/var/www/html:r
+      - ./storage/var/log/nginx/:/var/log/nginx/:rw
+      - ./config/hosts/proxy.conf:/etc/nginx/proxy.conf:r
+      - ./config/hosts/conf.d/:/etc/nginx/conf.d/:r
+    depends_on:
+      - php
+
+networks:
+  network-no-internet:
+    driver: bridge
+    internal: true
+  network:
+    driver: bridge

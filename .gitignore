@@ -1,8 +1,5 @@
 .DS_Store
-/js
-/css
-/favicon.ico
-/index.html
+/build
 
 
 # local env files
