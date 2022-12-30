@@ -41,3 +41,16 @@ cd ./vue && npm i && npm run serve
 ```bash
 cd ./vue && npm i && npm run build
 ```
+
+Страница будет доступна по адресам **localhost:8080** или **localhost:80**, в зависимости от того собран проект или запущен в режиме разработки.
+
+##### Настройка портов
+Скопируйте шаблон файла переменных среды docker:
+```bash
+cp ./docker/.env.example ./docker/.env
+```
+
+Измените порты в файле *./docker/.env* и перезапустите контейнеры:
+```bash
+cd ./docker && docker compose down && docker compose up -d && cd -
+```
